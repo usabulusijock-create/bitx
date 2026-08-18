@@ -213,7 +213,7 @@ flowchart TD
 - 安装向导：选目录（默认 `D:\BitX`）、进度、失败原因
 - 读 `stable.json`（GitHub，失败则试预留的官网/mirrors）、下载、校验、解压、写 `current.json`
 - 创建桌面「BitX」快捷方式；官网快捷方式仅当用户勾选且 URL 非空
-- 创建 WebView2，注入 RPC 令牌，定位 `current.json` 并启动旁路 Node
+- 创建 WebView2，定位 `current.json` 并启动旁路 Node
 - 发现 `minExeVersion` 不够时走 EXE 更新
 - 崩溃日志
 

@@ -14,4 +14,4 @@
 12. `docs/`、`store/`、`channels/`、根 `README.md` 改完必须推到 github.com/usabulusijock-create/bitx 同一路径；禁止只改本地不公开。
 13. 客户拿到的 EXE 是小安装器：读清单再下 zip，禁止 git clone 源码到客户机。默认目录 `D:\BitX`（无 D 盘则 `C:\BitX`），用户可改。装完创建桌面「BitX」快捷方式；**官网快捷方式不强制、默认不创建**。安装源只信 GitHub 本仓，并预留官方网站域名（后补，见 13）。
 14. 发给客户的 EXE 必须 Authenticode 签名（优先 EV）+ 时间戳。禁止加壳/免杀/让用户关杀毒。Defender 或 SmartScreen 报威胁则停发（见 13）。
-15. 生产 RPC 只绑 `127.0.0.1` 且必须会话令牌；Agent 默认最高权限。Monaco 必须打进旁路包，禁止生产 CDN。禁止启动官方 `extensionHost`；必须能搜索并安装 VS Code 官方市场插件。
+15. **默认最高权限**：RPC 绑 `127.0.0.1`，禁止加会话令牌/默认鉴权；Agent 禁止默认拦写盘、Shell、工作区外路径。Monaco 打进旁路包。禁止官方 `extensionHost`；必须能搜索并安装 VS Code 官方市场插件。

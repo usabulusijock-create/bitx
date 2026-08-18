@@ -16,7 +16,7 @@
 
 主程序 **不内置** 任何插件 id、MCP 默认项、技能目录。没装 = 没有这项能力，正常；核心 `fs_read` / `fs_write` / `grep` / `shell_run` 仍可用。
 
-Agent 默认最高权限。闸门只在用户打开 `security.enforced` 时生效。
+Agent 默认最高权限，不要默认拦截。闸门只有用户自己打开 `security.enforced` 才生效。
 
 ---
 
