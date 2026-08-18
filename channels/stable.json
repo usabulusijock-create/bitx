@@ -1,0 +1,18 @@
+{
+  "channel": "stable",
+  "publishedAt": "2026-08-19T00:00:00Z",
+  "exeVersion": 1,
+  "appVersion": "0.0.0",
+  "minExeVersion": 1,
+  "notes": "频道占位：有 payload 后再改 appVersion / app.url / sha256",
+  "app": {
+    "url": "https://github.com/usabulusijock-create/bitx/releases/download/app-0.0.0/payload-0.0.0.zip",
+    "sha256": "",
+    "size": 0
+  },
+  "exe": {
+    "url": "https://github.com/usabulusijock-create/bitx/releases/download/exe-1/BitX.exe",
+    "sha256": "",
+    "size": 0
+  }
+}
