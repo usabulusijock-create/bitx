@@ -18,7 +18,7 @@
 | 官方 VS 市场扩展怎么进 BitX | [docs/07-EXTENSION-MARKET.md](docs/07-EXTENSION-MARKET.md) · [docs/08-EXTENSION-HOST.md](docs/08-EXTENSION-HOST.md) |
 | 装完以后怎么在线升级 | [docs/13-UPDATES.md](docs/13-UPDATES.md) |
 
-客户下载的是**很小的安装器** `BitX.exe`：运行后读本仓 `channels/stable.json`，下载旁路包，默认装到 `D:\BitX`（可改），并在桌面创建 **BitX** 与 **BitX 官网** 快捷方式。不把源码 clone 到客户机。发给客户的 EXE 必须代码签名，安装过程不得报毒（见 [13](docs/13-UPDATES.md#客户机不得报毒发版硬条件)）。
+客户下载的是**很小的安装器** `BitX.exe`：运行后读 `channels/stable.json`，下载旁路包（现走 GitHub，官网与镜像字段预留），默认装到 `D:\BitX`（可改），桌面创建 **BitX** 快捷方式（官网快捷方式不强制）。不把源码 clone 到客户机。发给客户的 EXE 必须代码签名。扩展页能搜索并安装 VS Code 官方市场插件，由 BitX 宿主加载，不跑官方 extensionHost。
 
 扩展货架总说明：[store/README.md](store/README.md)
 

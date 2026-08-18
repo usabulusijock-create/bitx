@@ -12,5 +12,6 @@
 10. 未列入 [03-DIRECTORY.md](03-DIRECTORY.md) 的顶层目录不得擅自创建。
 11. 日常升级禁止覆盖已安装的 `BitX.exe`；只有 `exeVersion` 增加才换启动器（见 13）。
 12. `docs/`、`store/`、`channels/`、根 `README.md` 改完必须推到 github.com/usabulusijock-create/bitx 同一路径；禁止只改本地不公开。
-13. 客户拿到的 EXE 是小安装器：读仓库 `stable.json` 再下 Release zip，禁止 git clone 源码到客户机。默认目录 `D:\BitX`（无 D 盘则 `C:\BitX`），用户可改。装完必须创建桌面「BitX」与「BitX 官网」快捷方式。
-14. 发给客户的 EXE 必须 Authenticode 签名（优先 EV）+ 时间戳，版本信息写清公司与产品名。禁止加壳/免杀/让用户关杀毒。Defender 或 SmartScreen 报威胁则停发（见 13）。
+13. 客户拿到的 EXE 是小安装器：读清单再下 zip，禁止 git clone 源码到客户机。默认目录 `D:\BitX`（无 D 盘则 `C:\BitX`），用户可改。装完创建桌面「BitX」快捷方式；**官网快捷方式不强制、默认不创建**。安装源只信 GitHub 本仓，并预留官方网站域名（后补，见 13）。
+14. 发给客户的 EXE 必须 Authenticode 签名（优先 EV）+ 时间戳。禁止加壳/免杀/让用户关杀毒。Defender 或 SmartScreen 报威胁则停发（见 13）。
+15. 生产 RPC 只绑 `127.0.0.1` 且必须会话令牌；Agent 默认最高权限。Monaco 必须打进旁路包，禁止生产 CDN。禁止启动官方 `extensionHost`；必须能搜索并安装 VS Code 官方市场插件。

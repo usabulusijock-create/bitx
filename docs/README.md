@@ -20,7 +20,7 @@
 10. [09-HOST.md](09-HOST.md)
 11. [10-SETTINGS-SECURITY.md](10-SETTINGS-SECURITY.md)
 12. [11-ROADMAP.md](11-ROADMAP.md)
-13. [13-UPDATES.md](13-UPDATES.md) — 小安装器：默认 `D:\BitX`，拉仓库清单下载旁路；桌面快捷方式；代码签名，客户机不得报毒
+13. [13-UPDATES.md](13-UPDATES.md) — 小安装器：默认 `D:\BitX`；GitHub + 预留官网；不强制官网快捷方式；Monaco 在旁路内
 14. [14-EXTENDING.md](14-EXTENDING.md) — 客户 / 开源：写插件、MCP、技能
 
 扩展货架约定（与 14 配套，跟包放在一起）：

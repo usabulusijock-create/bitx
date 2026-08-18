@@ -1,6 +1,6 @@
 # 13 安装器与 GitHub 在线升级
 
-客户拿到的 **`BitX.exe` 体积很小，本身是安装器**。运行后读本仓清单、下载旁路包、装到用户选的目录（默认 `D:\BitX`），再创建桌面快捷方式。装完以后同一份 EXE 留在安装目录当启动器：日常升级只换旁路，不覆盖 EXE。
+客户拿到的 **`BitX.exe` 体积很小，本身是安装器**。运行后读清单、下载旁路包、装到用户选的目录（默认 `D:\BitX`），并创建桌面 **BitX** 快捷方式。官网快捷方式 **不强制、默认不创建**。装完以后同一份 EXE 留在安装目录当启动器：日常升级只换旁路，不覆盖 EXE。
 
 ## 客户第一次怎么装
 
@@ -8,25 +8,35 @@
 flowchart TD
   A[客户下载小 BitX.exe] --> B[运行安装器]
   B --> C[选目录 默认 D:\BitX]
-  C --> D[GET channels/stable.json]
+  C --> D[GET 清单 GitHub 或预留官网]
   D --> E[按清单下载 payload zip]
   E --> F[sha256 校验并解压到 D:\BitX\app\版本]
   F --> G[把本 EXE 拷到 D:\BitX\BitX.exe]
   G --> H[写 current.json]
   H --> I[桌面: BitX 快捷方式]
-  I --> J[桌面: 官网快捷方式]
-  J --> K[启动 IDE]
+  I --> K[启动 IDE]
 ```
 
 规则：
 
-1. **禁止** 把 GitHub 源码仓 `git clone` 到客户机。安装器只做 HTTPS：读 `stable.json`，再下 Release 里的 zip。文档和源码给开发者看，不给客户当运行时。
-2. 默认目录 **`D:\BitX`**。用户可改。没有 D 盘时默认 **`C:\BitX`**。不要默认装进 `Program Files`（避免日常写盘要管理员）。
-3. 必须联网完成首次安装。失败则停在安装器并显示原因，不要假装已经装好。
-4. 装完后创建两个桌面快捷方式（默认都勾选，用户可取消）：
-   - **BitX** → `D:\BitX\BitX.exe`（或用户选的目录）
-   - **BitX 官网** → 清单里的 `website`（当前为 GitHub 仓首页，以后可改成产品站而不换 EXE）
-5. 同一份小 EXE：无 `current.json` 时走安装向导；有则直接启动并后台检查更新。
+1. **禁止** 把源码仓 `git clone` 到客户机。安装器只做 HTTPS：读 `stable.json`，再下 zip。
+2. 默认目录 **`D:\BitX`**。用户可改。没有 D 盘时默认 **`C:\BitX`**。不要默认装进 `Program Files`。
+3. 必须联网完成首次安装。失败则停在安装器并显示原因。
+4. 桌面快捷方式：
+   - **BitX**（必建）→ 安装目录 `\BitX.exe`
+   - **BitX 官网**（可选，**默认不勾选、不创建**）→ 清单 `website` / 后补的 `officialWebsite`
+5. 同一份小 EXE：无 `current.json` 时走安装向导；已写入 HKCU 安装路径则启动已有目录，不要对「下载文件夹里那份 EXE」再装一遍。拷到安装目录后去掉 Zone.Identifier。
+
+## 安装源（GitHub 现在用，官网后补）
+
+安装器只从白名单拉清单和 zip：
+
+| 源 | 现在 | 预留 |
+| --- | --- | --- |
+| GitHub 本仓 | 必填：`raw.githubusercontent.com/usabulusijock-create/bitx` 的 `channels/stable.json`，包体来自本仓 Releases | 一直保留 |
+| 官方网站 | 字段空着 | `officialWebsite`、`mirrors[]` 以后填域名与镜像 URL，**不必为此升 EXE**（EXE 只认清单里的主机允许列表，允许列表含「后补官网」占位） |
+
+EXE 写死允许的主机形态：`github.com/usabulusijock-create/bitx`、`raw.githubusercontent.com/usabulusijock-create/bitx`，以及清单 `officialWebsite` 解析出的 https 主机（空则忽略）。禁止其它域名。
 
 ## 安装后磁盘
 
@@ -38,7 +48,7 @@ D:\BitX\                             # 默认；用户可改
 
   app\
     current.json                     # { "appVersion": "1.2.3", "dir": "1.2.3" }
-    1.2.3\                           # 解压后的旁路：workbench / engine / host / node
+    1.2.3\                           # 旁路：workbench / engine / host / node / Monaco
     1.2.2\                           # 保留上一版，失败可回滚
   updates\
     staging\
@@ -46,13 +56,14 @@ D:\BitX\                             # 默认；用户可改
   logs\update.log
 
 桌面\
-  BitX.lnk                           # 指向安装目录\BitX.exe
-  BitX 官网.url                      # 指向 stable.json 的 website
+  BitX.lnk                           # 必建
+  BitX 官网.url                      # 默认不建
 
 %APPDATA%\BitX6-2\                   # 用户数据，重装/升级永不删除
   settings.json
   sessions\
   plugins\  mcp\  skills\
+  extensions\                        # 官方市场 VSIX
 ```
 
 启动：`BitX.exe` 读安装目录下 `app\current.json` → 拉起该版本旁路。找不到旁路则回到安装器「继续完成下载」，**不要假装 EXE 里自带会 404 的 MCP。**
@@ -61,8 +72,8 @@ D:\BitX\                             # 默认；用户可改
 
 | 部件 | 变不变 | 体积 | 例子 |
 | --- | --- | --- | --- |
-| `BitX.exe` | 几乎不变 | 小 | 安装向导、开窗口、拉起 app、下载校验、切版本、写快捷方式 |
-| `app/` 旁路包 | 经常变 | 大 | 工作台、引擎、Host、便携 Node |
+| `BitX.exe` | 几乎不变 | 小 | 安装向导、开 WebView2、拉起 app、下载校验、切版本、写 BitX 快捷方式 |
+| `app/` 旁路包 | 经常变 | 大 | 工作台、引擎、Host、便携 Node、**Monaco** |
 | `store/` 三目录 | 独立变 | 按包 | 插件 / MCP / 技能，用户自己装 |
 
 EXE 一旦写入安装目录，默认当成只读。升级器没有「顺手覆盖 exe」这条路径。
@@ -106,10 +117,11 @@ EXE 一旦写入安装目录，默认当成只读。升级器没有「顺手覆�
 
 不再做「胖 setup 安装包」当主路径。客户永远先下小 EXE，再从本仓拉旁路。
 
-客户端写死（改这些 URL 才必须升 EXE）：
+客户端写死（改允许列表形态才必须升 EXE）：
 
-- 清单：`https://raw.githubusercontent.com/usabulusijock-create/bitx/main/channels/stable.json`
-- 包体：清单里的 `app.url` / `exe.url`
+- 清单首选：`https://raw.githubusercontent.com/usabulusijock-create/bitx/main/channels/stable.json`
+- 清单备用：以后填的 `officialWebsite` + `mirrors[]`（现为空，预留）
+- 包体：清单里的 `app.url` / `exe.url`（必须落在允许主机上）
 
 ### 频道清单
 
@@ -123,6 +135,8 @@ EXE 一旦写入安装目录，默认当成只读。升级器没有「顺手覆�
   "appVersion": "1.2.3",
   "minExeVersion": 1,
   "website": "https://github.com/usabulusijock-create/bitx",
+  "officialWebsite": "",
+  "mirrors": [],
   "install": {
     "defaultDir": "D:\\BitX",
     "fallbackDir": "C:\\BitX"
@@ -141,7 +155,7 @@ EXE 一旦写入安装目录，默认当成只读。升级器没有「顺手覆�
 }
 ```
 
-`website`：桌面「BitX 官网」快捷方式的目标。以后换成产品站只改 JSON，不必换 EXE。旁路更新成功后按清单刷新该快捷方式的 URL。
+`website`：可选官网快捷方式的目标（现在指向 GitHub 仓文档）。`officialWebsite`、`mirrors` **预留空串/空数组**，以后补产品站与国内镜像，只改 JSON。不强制创建桌面官网快捷方式。
 
 `exe.url` 给新装分发页和「启动器必升」用。客户端：
 
@@ -173,7 +187,7 @@ flowchart TD
   F --> G[sha256 校验]
   G --> H[解压到 app/新版本]
   H --> I[写 current.json 指向新目录]
-  I --> J[刷新官网快捷方式 URL]
+  I --> E
   D -->|exe 不够用| K[提示：启动器必须更新]
   K --> L[用户确认]
   L --> M[下载 BitX.exe 到 .new]
@@ -197,13 +211,13 @@ flowchart TD
 只允许这些，才能长期保持小体积、少改字节：
 
 - 安装向导：选目录（默认 `D:\BitX`）、进度、失败原因
-- 读 `stable.json`、下载、校验、解压、写 `current.json`
-- 创建 / 刷新桌面「BitX」与「BitX 官网」快捷方式
-- 创建 WebView2 / 本机窗口，定位 `current.json` 并启动旁路 Node
+- 读 `stable.json`（GitHub，失败则试预留的官网/mirrors）、下载、校验、解压、写 `current.json`
+- 创建桌面「BitX」快捷方式；官网快捷方式仅当用户勾选且 URL 非空
+- 创建 WebView2，注入 RPC 令牌，定位 `current.json` 并启动旁路 Node
 - 发现 `minExeVersion` 不够时走 EXE 更新
 - 崩溃日志
 
-禁止打进 EXE：引擎、工作台 HTML、MCP、技能、插件、模型列表、便携 Node。这些全在旁路 zip 或 store。
+禁止打进 EXE：引擎、工作台 HTML、**Monaco**、MCP、技能、插件、模型列表、便携 Node。这些全在旁路 zip 或 store。
 
 禁止：内置 git、clone 本仓、把 `docs/` `store/` 当运行时拷到客户机。
 
@@ -219,14 +233,14 @@ store 包 **自包含、能启动**。未安装 = 目录里没有这项能力，
 
 ## 新用户 vs 老用户
 
-- **新用户**：下很小的 `BitX.exe` → 联网拉当前旁路 → 装到 `D:\BitX`（可改）→ 桌面两个快捷方式。
+- **新用户**：下很小的 `BitX.exe` → 联网拉当前旁路（GitHub，官网后补）→ 装到 `D:\BitX`（可改）→ 桌面 BitX 快捷方式（不强制官网）。
 - **老用户**：点桌面 BitX，只拉比本地新的 payload；安装目录里的 EXE 可以长期不变。
 
 ## 安全
 
-- 只信任 `github.com/usabulusijock-create/bitx` 与 `raw.githubusercontent.com/usabulusijock-create/bitx`。
+- 只信 GitHub 本仓；`officialWebsite` / `mirrors` 预留，补上后同一套校验。
 - 必须校验 sha256，禁止只比文件名。
-- 官网快捷方式只允许 `https`，URL 必须来自清单 `website` 字段。
+- 若用户勾选官网快捷方式：只允许 `https`，URL 必须来自清单 `website` 或 `officialWebsite`。
 - 可选：清单用私钥签名，EXE 内置公钥（公钥变了才需要升 EXE）。
 - 不在更新通道里下 MCP 的随机 URL。
 
@@ -242,8 +256,8 @@ store 包 **自包含、能启动**。未安装 = 目录里没有这项能力，
    - 签名必须带 **时间戳**（timestamp），证书过期后已发出的 EXE 仍然有效。
 2. **版本资源填满**：`CompanyName`、`ProductName=BitX`、`FileDescription`、`LegalCopyright`、`FileVersion`。禁止空公司、Generic、Setup 这类名字。
 3. **安装器很少换哈希**：日常只发旁路 zip。EXE 哈希稳定，SmartScreen 信誉才积得起来。每次重编未改协议的 EXE = 信誉清零。
-4. **只连本仓 HTTPS**：清单 + GitHub Releases。禁止随机域名、禁止 HTTP、禁止再套一层不明 CDN 跳转。
-5. **payload 也干净**：旁路 zip 里用官方便携 Node，不壳、不加密整包、不塞无关 exe。zip 的 sha256 写在 `stable.json`。
+4. **只连允许主机的 HTTPS**：先 GitHub 本仓；官网与镜像字段预留。禁止随机域名、禁止 HTTP。
+5. **payload 也干净**：旁路 zip 里用官方便携 Node + 打进包的 Monaco，不壳、不加密整包。zip 的 sha256 写在 `stable.json`。
 6. **发客户包之前在干净 Windows 上自检**：右键属性能看到数字签名；Defender 实时保护开着，安装全过程无威胁提示。有提示就 **停发**，先改签名/构建，再发。
 
 ### 禁止做（这些最容易报毒）
