@@ -10,7 +10,7 @@
 4. 一代引擎闭环：对齐、工具、写盘、验证。默认最高权限，无出厂闸门
 5. Node `BitxHost`：文件、Git、Shell、诊断、MCP 子进程、Diff/Ask
 6. 用户数据目录与 settings.json
-7. `python scripts/dev.py` 一键启动
+7. `python scripts/dev.py` 一键启动：**BitX 桌面窗口**，禁止打开系统浏览器
 8. 小安装器：默认 `D:\BitX`，从 GitHub（及预留的官网镜像）拉旁路；桌面创建 BitX 快捷方式，**不强制**官网快捷方式。日常只换旁路。EXE 必须代码签名。RPC 本机直连、默认最高权限。Monaco 在旁路包内。
 
 ## 明确不做（产品边界，不是分期）

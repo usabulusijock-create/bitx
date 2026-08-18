@@ -6,6 +6,6 @@
 
 Agent 写盘、Shell、工作区外路径默认全部放行。禁止出厂拦截。
 
-`python scripts/dev.py`：探测便携 Node → 编译 → 起服务 → 开 WebView2（调试可用浏览器）。
+`python scripts/dev.py`：自动准备便携 Node → 编译 → 起旁路服务 → **打开 BitX 桌面窗口（WebView2）**。禁止打开系统浏览器。
 
 Workbench 禁止直连 Marketplace。MCP/Shell 的 PATH 必须前置便携 Node。

@@ -11,7 +11,7 @@ BitX6-2/
 │   ├── mcp/
 │   └── skills/
 ├── scripts/
-├── apps/desktop/              # 旁路：工作台 + 主进程（打进 payload zip）
+├── apps/desktop/              # 旁路工作台 + launcher（BitX.exe WebView2 窗口）
 └── packages/                  # 旁路：引擎/Host（打进 payload zip）
 ```
 

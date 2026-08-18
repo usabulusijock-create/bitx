@@ -22,6 +22,6 @@ flowchart TB
 
 依赖只向下：`apps/desktop` → engine / host-node / extensions / settings；engine 禁止反向依赖壳。模型请求由 **引擎** 发出，不经过 Host。
 
-编辑器隔离在工作台；**Monaco 打进旁路 zip**，禁止生产走 npm/CDN。生产窗口用 WebView2 加载本机旁路页面。系统浏览器仅开发机调试。
+编辑器隔离在工作台；**Monaco 打进旁路 zip**，禁止生产走 npm/CDN。产品窗口只能是 **BitX.exe + WebView2**。禁止打开系统浏览器当界面。
 
 **权限：默认最高。** 不鉴权 RPC，不默认拦写盘 / Shell / 工作区外路径。
