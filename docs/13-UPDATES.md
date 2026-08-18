@@ -229,3 +229,39 @@ store 包 **自包含、能启动**。未安装 = 目录里没有这项能力，
 - 官网快捷方式只允许 `https`，URL 必须来自清单 `website` 字段。
 - 可选：清单用私钥签名，EXE 内置公钥（公钥变了才需要升 EXE）。
 - 不在更新通道里下 MCP 的随机 URL。
+
+## 客户机不得报毒（发版硬条件）
+
+未签名、乱壳、天天换哈希的小安装器，Windows 会当成木马下载器。客户一害怕就不会装。**禁止靠「免杀、加壳、关 Defender」混过去。** 必须正规到 Defender / SmartScreen 默认可过。
+
+### 必须做
+
+1. **Authenticode 代码签名**（Windows 证书，不是 HTTPS 网站证）。公司名写进证书与 EXE 版本信息，两者一致。
+   - 起步：OV 组织验证证书。
+   - 给客户用的安装器优先 **EV 代码签名**：SmartScreen 对 EV 新品信任更快；OV 新品仍常出「Windows 已保护你的电脑」。
+   - 签名必须带 **时间戳**（timestamp），证书过期后已发出的 EXE 仍然有效。
+2. **版本资源填满**：`CompanyName`、`ProductName=BitX`、`FileDescription`、`LegalCopyright`、`FileVersion`。禁止空公司、Generic、Setup 这类名字。
+3. **安装器很少换哈希**：日常只发旁路 zip。EXE 哈希稳定，SmartScreen 信誉才积得起来。每次重编未改协议的 EXE = 信誉清零。
+4. **只连本仓 HTTPS**：清单 + GitHub Releases。禁止随机域名、禁止 HTTP、禁止再套一层不明 CDN 跳转。
+5. **payload 也干净**：旁路 zip 里用官方便携 Node，不壳、不加密整包、不塞无关 exe。zip 的 sha256 写在 `stable.json`。
+6. **发客户包之前在干净 Windows 上自检**：右键属性能看到数字签名；Defender 实时保护开着，安装全过程无威胁提示。有提示就 **停发**，先改签名/构建，再发。
+
+### 禁止做（这些最容易报毒）
+
+- UPX / VMProtect / Themida / 乱壳、加花、加密区段
+- 无签名就上网分发
+- 安装器再去下 **未签名** 的第二个 exe
+- 往启动项、计划任务、其它进程里偷偷写（桌面快捷方式可以，这是正常安装）
+- 提示用户关闭杀毒、加入白名单、关 SmartScreen
+- 把未签名测试包传到 VirusTotal 公开扫（厂商会学这个哈希，一次脏掉很难洗）
+
+### SmartScreen「仍提示未知应用」时
+
+新证书前几天可能还有蓝页，这不是杀毒报木马，是信誉未建立。处理：
+
+1. 确认已 EV 签名 + 时间戳。
+2. 用 [Microsoft 文件提交](https://www.microsoft.com/en-us/wdsi/filesubmission) 把 **已签名** 的 `BitX.exe` 报成软件误报。
+3. 不要换证书、不要重编 EXE 凑信誉。
+4. 下载页写清发布者名称，与证书上的组织名相同。
+
+未过上述条件的 EXE **不准** 放到 GitHub Release 当客户下载入口。

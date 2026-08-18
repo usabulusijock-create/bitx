@@ -11,7 +11,7 @@
 5. Node `BitxHost`：文件、Git、Shell、诊断、MCP 子进程、Diff/Ask
 6. 用户数据目录与 settings.json
 7. `python scripts/dev.py` 一键启动
-8. 小安装器：默认装到 `D:\BitX`，从 GitHub 拉旁路；桌面创建 BitX 与官网快捷方式。日常只换旁路，EXE 仅 `exeVersion` 变化时更（见 13）
+8. 小安装器：默认装到 `D:\BitX`，从 GitHub 拉旁路；桌面创建 BitX 与官网快捷方式。日常只换旁路，EXE 仅 `exeVersion` 变化时更（见 13）。发给客户的 EXE 必须代码签名，安装不得报毒
 
 ## 明确不做（产品边界，不是分期）
 
