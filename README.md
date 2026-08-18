@@ -18,6 +18,8 @@
 | 官方 VS 市场扩展怎么进 BitX | [docs/07-EXTENSION-MARKET.md](docs/07-EXTENSION-MARKET.md) · [docs/08-EXTENSION-HOST.md](docs/08-EXTENSION-HOST.md) |
 | 装完以后怎么在线升级 | [docs/13-UPDATES.md](docs/13-UPDATES.md) |
 
+客户下载的是**很小的安装器** `BitX.exe`：运行后读本仓 `channels/stable.json`，下载旁路包，默认装到 `D:\BitX`（可改），并在桌面创建 **BitX** 与 **BitX 官网** 快捷方式。不把源码 clone 到客户机。
+
 扩展货架总说明：[store/README.md](store/README.md)
 
 ## 仓库里有什么

@@ -12,3 +12,4 @@
 10. 未列入 [03-DIRECTORY.md](03-DIRECTORY.md) 的顶层目录不得擅自创建。
 11. 日常升级禁止覆盖已安装的 `BitX.exe`；只有 `exeVersion` 增加才换启动器（见 13）。
 12. `docs/`、`store/`、`channels/`、根 `README.md` 改完必须推到 github.com/usabulusijock-create/bitx 同一路径；禁止只改本地不公开。
+13. 客户拿到的 EXE 是小安装器：读仓库 `stable.json` 再下 Release zip，禁止 git clone 源码到客户机。默认目录 `D:\BitX`（无 D 盘则 `C:\BitX`），用户可改。装完必须创建桌面「BitX」与「BitX 官网」快捷方式。
